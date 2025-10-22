@@ -1,28 +1,29 @@
-My JavaScript Journey 🚀
+# JavaScript Learning Journey 🚀
 
-60 Days of Learning JavaScript from Scratch
+Learning JavaScript from scratch in 60 days!
 
-About This Repository
-I'm learning JavaScript fundamentals over 60 days, 30 minutes per day. This repo contains all my practice code, exercises, and projects as I progress from complete beginner to confident programmer.
+## 📅 Progress Tracker
 
-What I'm Learning
+### Month 1: Fundamentals
 
-Week 1: JavaScript Basics ✅
-- Variables (let, const)
-- Numbers and math operations
-- Strings and text manipulation
-- Git and GitHub setup
+**Week 1: Basics** ✅
+- Variables, strings, numbers
+- Git setup and first push
 
-Progress Tracker
-- Days Completed: 6/60
-- Current Focus: Getting my code on GitHub!
+**Week 2: Conditionals** ✅ (Just completed!)
+- Boolean logic and comparisons
+- If/else statements
+- Else-if chains
+- Logical operators (&&, ||, !)
+- **Projects:** Number guesser, login validator, grade evaluator
 
-Goals
-By the end of 60 days, I'll understand:
-- JavaScript fundamentals (variables, functions, loops, arrays, objects)
-- Problem-solving and algorithms
-- Building real projects
+**Week 3: Loops** 🔄 (Coming next!)
 
 ---
 
-Started: October 2025
+## 🛠️ Technologies
+- JavaScript (Node.js)
+- Git & GitHub
+
+## 🎯 Goal
+Become a full-stack developer, one day at a time!
