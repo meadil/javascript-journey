@@ -2,48 +2,7 @@
 
 
 
-// PART 1: PROJECT PLANNING (The Secret Sauce)
-
-
-// THE PLANNING PROCESS:
-
-// Step 1: Break Down the Calculator
-
-// What does a calculator need to do?
-// 1. Get two numbers from the user
-// 2. Get the operation (+, -, *, /)
-// 3. Calculate the result
-// 4. Show the result
-// 5. Handle errors (like dividing by zero)
-
-
-// Step 2: Identify the Functions
-
-// Let's map those steps to functions:
-
-// These are the functions we need to create:
-
-// 1. Basic math operations:
-
-// function add(a, b) {}
-// function subtract(a, b) {}
-// function multiply(a, b) {}
-// function divide(a, b) {}
-
-// 2. Main calculator logic
-
-// function calculate(num1, num2, operation) {}
-
-// 3. Display/Menu
-
-// function displayMenu() {}
-
-
-
-// PART 2: LET'S START BUILDING
-
-
-// BASIC OPERATIONS
+// ===== BASIC OPERATIONS =====
 
 
 function add(a, b) {
@@ -79,47 +38,14 @@ function divide(a, b) {
 }
 
 
-// TESTING
 
-// Let's make sure these work!
-
-
-console.log("Testing add:", add(10, 5));
-
-console.log("Testing subtract:", subtract(10, 5));
-
-console.log("Testing multiply:", multiply(10, 5));
-
-console.log("Testing divide:", divide(10, 5));
-
-console.log("Testing divide by zero:", divide(10, 0));
-
-
-
-// Exercise 1: Test the functions
-
-// (done tesing. works 💀)
-
-
-
-// Exercise 2: Add more test cases
-
-
-console.log("\nAdd negative:", add(-5, 3));
-
-console.log("Multiply by zero:", multiply(10, 0));
-
-console.log("Divide decimals:", divide(10, 3));
-
-
-
-// Exercise 3: Build Main Calculator Function
+// ===== MAIN CALCULATOR =====
 
 
 function calculate(num1, num2, operation) {
 
     operation = operation.toLowerCase();
-
+    
     if (operation === "+" || operation === "add") {
 
         return add(num1, num2);
@@ -145,26 +71,69 @@ function calculate(num1, num2, operation) {
 }
 
 
-// Let's test it
+
+// ===== INTERACTIVE CALCULATOR =====
 
 
-console.log("\nCalculator Tests:");
+const readline = require('readline');
 
-console.log(calculate(10, 5, "+"));
+const rl = readline.createInterface({
 
-console.log(calculate(10, 5, "-"));
+    input: process.stdin,
 
-console.log(calculate(10, 5, "*"));
+    output: process.stdout
 
-console.log(calculate(10, 5, "/"));
+});
 
 
-// Error testing 💀
+console.log("\n🧮 WELCOME TO THE CALCULATOR! 🧮\n");
 
-console.log("\nTesting error handler:");
 
-console.log(calculate(10, 5, "%"));
+// Step 1: Ask for first number
 
-console.log(calculate(10, 5, "pizza"));
+rl.question('Enter first number: ', (num1) => {
+    
+    // Step 2: Ask for operation
 
-console.log(calculate(10, 5, ""));
+    rl.question('Enter operation (+, -, *, /): ', (operation) => {
+        
+        // Step 3: Ask for second number
+
+        rl.question('Enter second number: ', (num2) => {
+            
+            // Convert to numbers
+
+            let number1 = Number(num1);
+
+            let number2 = Number(num2);
+            
+
+            // Validate
+
+            if (isNaN(number1) || isNaN(number2)) {
+
+                console.log("\n❌ Error: Please enter valid numbers!\n");
+
+                rl.close();
+
+                return;
+
+            }
+
+            
+            // Calculate
+
+            let result = calculate(number1, number2, operation);
+            
+            
+            // Show result
+
+            console.log(`\n✨ Result: ${number1} ${operation} ${number2} = ${result}\n`);
+            
+            rl.close();
+
+        });
+
+    });
+
+});
