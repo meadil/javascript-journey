@@ -12,58 +12,95 @@ let nextId = 1;
 // ===== CORE FUNCTIONS =====
 
 
-function addTask(tasktext) {
+function addTask(taskText) {
 
-    // 1. create new task object with:
-    // - id: nextId
-    // - task: taskText
-    // - completed: false
+    let newTask = {
 
-    // 2. add task object to tasks array
+        id: nextId,
 
-    // 3. incremnt nextId (nextId++)
+        task: taskText,
 
-    // 4. show success message
+        completed: false
+
+    };
+
+    tasks.push(newTask);
+
+    nextId++;
+
+    console.log(`\n✅ Task Added: "${taskText}"`);
 
 }
 
 
 function removeTask(taskId) {
 
-    // 1. find the task by its id:
-    // - loop through tasks array
-    // - find that specific task (tasks[i].id === taskid)
+    for (let i = 0; i < tasks.length; i++) {
 
-    // 2. remove it from tasks array (tasks[i].splice(i, 1))
+        if (tasks[i].id === taskId) {
 
-    // 3. show success message
+            let taskText = tasks[i].task;
+
+            tasks.splice(i, 1);
+
+            console.log(`\n🗑️ Removed: "${taskText}"`);
+
+            return;
+
+        }
+
+    }
+
+    console.log(`\n❌ Task #${taskId} not found!`);
 
 }
 
 
 function viewTasks() {
 
-    // this could display like this:
+    console.log("\n📝 ===== YOUR TASKS ===== 📝\n");
 
-    // 📝 To-Do
-    // 
-    // 1. Learn JS ✅
-    // 2. Build calculator ✅
-    // 3. Build todo list ❌
+    if (tasks.length === 0) {
+
+        console.log("No tasks yet! Add one to get started.");
+
+        return;
+
+    }
+    
+    for (let i = 0; i < tasks.length; i++) {
+
+        let task = tasks[i];
+
+        let status = task.completed ? "✅" : "❌";
+
+        console.log(`${task.id}. ${task.task} ${status}`);
+        
+    }
 
 }
 
 
-// ===== FEATURE FUNCTIONS
+// ===== FEATURE FUNCTIONS =====
 
 
 function toggleComplete(taskId) {
 
-    // 1. loop through tasks array and find the task (tasks[i].id === taskId)
+    let task = findTaskById(taskId);
+    
+    if (task === null) {
 
-    // 2. flip its completed value
+        console.log(`\n❌ Task #${taskId} not found!`);
 
-    // 3. show success message
+        return;
+
+    }
+    
+    task.completed = !task.completed;
+    
+    let status = task.completed ? "complete" : "incomplete";
+
+    console.log(`\n✔️ Marked "${task.task}" as ${status}`);
 
 }
 
@@ -85,9 +122,17 @@ function filterTasks(filter) {
 
 function findTaskById(taskId) {
 
-    // 1. find it
+    for (let i = 0; i < tasks.length; i++) {
 
-    // 2. show it
+        if (tasks[i].id === taskId) {
+
+            return tasks[i];
+
+        }
+
+    }
+
+    return null;
 
 }
 
@@ -122,10 +167,56 @@ function showMenu() {
 
 
 function handleMenuChoice(choice) {
-    
-    console.log(`You chose: ${choice}`);
 
-    showMenu();
+    if (choice === '1') {
+
+        rl.question('Enter task: ', (taskText) => {
+
+            addTask(taskText);
+
+            showMenu();
+
+        });
+
+    } else if (choice === '2') {
+
+        viewTasks();
+
+        showMenu();
+
+    } else if (choice === '3') {
+
+        rl.question('Enter task ID to toggle: ', (id) => {
+
+            toggleComplete(Number(id));
+
+            showMenu();
+
+        });
+
+    } else if (choice === '4') {
+
+        rl.question('Enter task ID to remove: ', (id) => {
+
+            removeTask(Number(id));
+
+            showMenu();
+
+        });
+
+    } else if (choice === '6') {
+
+        console.log("\n👋 Goodbye!");
+
+        rl.close();
+
+    } else {
+
+        console.log(`\nYou chose: ${choice}`);
+
+        showMenu();
+
+    }
 
 }
 
