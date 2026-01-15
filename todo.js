@@ -75,8 +75,20 @@ function viewTasks() {
         let status = task.completed ? "✅" : "❌";
 
         console.log(`${task.id}. ${task.task} ${status}`);
-        
+
     }
+
+    console.log("\n" + "─".repeat(40));
+
+    let completed = 0;
+
+    for (let i = 0; i < tasks.length; i++) {
+
+        if (tasks[i].completed) completed++;
+
+    }
+
+    console.log(`Total: ${tasks.length} | Completed: ${completed} | Remaining: ${tasks.length - completed}`);
 
 }
 
@@ -107,12 +119,131 @@ function toggleComplete(taskId) {
 
 function filterTasks(filter) {
 
-    // 1. ask: all, completed, or incomplete? (number: 1-3)
+    console.log("\n📝 ===== FILTERED TASKS ===== 📝\n");
 
-    // 2. if all = call viewTasks() function
-    // 
-    // else:
-    // sort using a loop and print each task (the same format)
+    let filteredTasks = [];
+
+    if (filter === "all") {
+
+        filteredTasks = tasks;
+
+    } else if (filter === "completed") {
+
+        for (let i = 0; i < tasks.length; i++) {
+
+            if (tasks[i].completed === true) {
+
+                filteredTasks.push(tasks[i]);
+
+            }
+
+        }
+
+    } else if (filter === "incomplete") {
+
+        for (let i = 0; i < tasks.length; i++) {
+
+            if (tasks[i].completed === false) {
+
+                filteredTasks.push(tasks[i]);
+
+            }
+
+        }
+
+    }
+
+    if (filteredTasks.length === 0) {
+
+        console.log(`No ${filter} tasks found!`);
+
+        showMenu();
+
+        return;
+
+    }
+
+    for (let i = 0; i < filteredTasks.length; i++) {
+
+        let task = filteredTasks[i];
+
+        let status = task.completed ? "✅" : "❌";
+
+        console.log(`${task.id}. ${task.task} ${status}`);
+
+    }
+
+    console.log("\n" + "─".repeat(40));
+
+    showMenu();
+
+}
+
+
+function showStats() {
+
+    let total = tasks.length;
+
+    let completed = 0;
+
+    let incomplete = 0;
+
+    for (let i = 0; i < tasks.length; i++) {
+
+        if (tasks[i].completed) {
+
+            completed++;
+
+        } else {
+
+            incomplete++;
+
+        }
+
+    }
+
+    let percentage = total > 0 ? ((completed / total) * 100).toFixed(1) : 0;
+
+    console.log("\n📊 ===== TASK STATISTICS ===== 📊\n");
+    console.log(`Total Tasks: ${total}`);
+    console.log(`Completed: ${completed} ✅`);
+    console.log(`Incomplete: ${incomplete} ❌`);
+    console.log(`Progress: ${percentage}% complete`);
+
+}
+
+
+function clearAllTasks() {
+
+    if (tasks.length === 0) {
+
+        console.log("\n📝 No tasks to clear!");
+
+        return;
+
+    }
+
+    rl.question('\n⚠️ Are you sure you want to delete ALL tasks? (yes/no): ', (answer) => {
+
+        if (answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
+
+            let count = tasks.length;
+
+            tasks = [];
+
+            nextId = 1;
+
+            console.log(`\n🗑 Cleared ${count} tasks!\n`);
+
+        } else {
+
+            console.log("\n✅ Cancelled. Tasks are safe!\n");
+
+        }
+
+        showMenu();
+
+    });
 
 }
 
@@ -159,7 +290,9 @@ function showMenu() {
     console.log("[3] Toggle Task Complete");
     console.log("[4] Remove Task");
     console.log("[5] Filter Tasks");
-    console.log("[6] Exit");
+    console.log("[6] View Statistics");
+    console.log("[7] Clear All Tasks");
+    console.log("[8] Exit");
 
     rl.question('\nChoice: ', handleMenuChoice);
 
@@ -204,15 +337,61 @@ function handleMenuChoice(choice) {
 
         });
 
+    } else if (choice === '5') {
+
+        console.log("\n[1] All Tasks");
+        console.log("[2] Completed Tasks");
+        console.log("[3] Incomplete Tasks");
+
+        rl.question('\nFilter choice: ', (filterChoice) => {
+
+            if (filterChoice === '1') {
+
+                filterTasks("all");
+
+            } else if (filterChoice === '2') {
+
+                filterTasks("completed");
+
+            } else if (filterChoice === '3') {
+
+                filterTasks("incomplete");
+
+            } else {
+
+                console.log("\n❌ Invalid filter choice!");
+
+                showMenu();
+
+            }
+
+        });
+
     } else if (choice === '6') {
 
-        console.log("\n👋 Goodbye!");
+        showStats();
 
+        showMenu();
+
+    } else if (choice === '7') {
+
+        clearAllTasks();
+
+    } else if (choice === '8') {
+
+        console.log("\n👋 Thanks for using To-Do List Manager!");
+        
+        console.log("\n📊 Final Stats:");
+        
+        showStats();
+        
+        console.log("");
+        
         rl.close();
 
     } else {
 
-        console.log(`\nYou chose: ${choice}`);
+        console.log(`\n❌ Invalid choice!`);
 
         showMenu();
 
